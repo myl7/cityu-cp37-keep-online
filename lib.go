@@ -14,7 +14,8 @@ func Login(ctx context.Context, ctlUrl, username, password string) error {
 	browser = browser.MustConnect()
 	defer browser.MustClose()
 
-	page := browser.MustPage("https://cp37.cs.cityu.edu.hk/cp").MustWaitStable()
+	// `MustWaitStable` never resolves. Maybe because of failed network requests.
+	page := browser.MustPage("https://cp37.cs.cityu.edu.hk/cp").MustWaitIdle()
 	page.MustElement("#okta-signin-username").MustInput(username)
 	page.MustElement("#okta-signin-password").MustInput(password)
 	page.MustElement("#okta-signin-submit").MustClick()
