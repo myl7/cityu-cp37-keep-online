@@ -23,3 +23,5 @@ install: build
 	$(INSTALL_DATA) init/cp37-login $(DESTDIR)$(sysconfdir)/default/cp37-login
 install-deb: install
 	$(INSTALL_DATA) build/package/control $(DESTDIR)/DEBIAN/control
+
+# TODO: Pack README.md and LICENSE
