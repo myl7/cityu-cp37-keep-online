@@ -1,25 +1,26 @@
 package cp37
 
-import (
-	"context"
+import "github.com/go-rod/rod"
 
-	"github.com/go-rod/rod"
-)
+type CP37 struct {
+	username string
+	password string
+}
 
-func Login(ctx context.Context, ctlUrl, username, password string) error {
-	browser := rod.New().Context(ctx)
-	if ctlUrl != "" {
-		browser = browser.ControlURL(ctlUrl)
+func NewCP37(username, password string) CP37 {
+	return CP37{
+		username: username,
+		password: password,
 	}
-	browser = browser.MustConnect()
-	defer browser.MustClose()
+}
 
+const CP37LoginUrl = "https://cp37.cs.cityu.edu.hk/cp"
+
+func (cp CP37) MustLogin(browser *rod.Browser) {
 	// `MustWaitStable` never resolves. Maybe because of failed network requests.
-	page := browser.MustPage("https://cp37.cs.cityu.edu.hk/cp").MustWaitIdle()
-	page.MustElement("#okta-signin-username").MustInput(username)
-	page.MustElement("#okta-signin-password").MustInput(password)
+	page := browser.MustPage(CP37LoginUrl).MustWaitIdle()
+	page.MustElement("#okta-signin-username").MustInput(cp.username)
+	page.MustElement("#okta-signin-password").MustInput(cp.password)
 	page.MustElement("#okta-signin-submit").MustClick()
 	page.MustWaitStable()
-
-	return nil
 }
