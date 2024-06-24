@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/go-rod/rod"
+	"github.com/go-rod/rod/lib/launcher"
 	"github.com/joho/godotenv"
 	cp37 "github.com/myl7/cityu-cp37-keep-online"
 )
@@ -27,6 +28,19 @@ func main() {
 	defer browser.MustClose()
 	if c.ctlUrl != "" {
 		browser = browser.ControlURL(c.ctlUrl)
+	} else {
+		if c.binPath != "" {
+			ctlUrl := launcher.New().Bin(c.binPath).MustLaunch()
+			browser = browser.ControlURL(ctlUrl)
+		} else {
+			path, has := launcher.LookPath()
+			if !has {
+				// To work with the systemd service read-only home, we disable auto browser download
+				log.Fatalln("Cannot find browser")
+			}
+			ctlUrl := launcher.New().Bin(path).MustLaunch()
+			browser = browser.ControlURL(ctlUrl)
+		}
 	}
 	browser = browser.MustConnect()
 
@@ -36,6 +50,7 @@ func main() {
 
 type config struct {
 	ctlUrl   string
+	binPath  string
 	username string
 	password string
 	timeout  time.Duration
@@ -45,6 +60,7 @@ const TimeoutStrDefault = "30s"
 
 func configFromEnv() config {
 	ctlUrl := os.Getenv("CP37_ROD_CTL_URL")
+	binPath := os.Getenv("CP37_ROD_BIN_PATH")
 
 	username := os.Getenv("CP37_CITYU_USERNAME")
 	if username == "" {
@@ -70,6 +86,7 @@ func configFromEnv() config {
 
 	return config{
 		ctlUrl:   ctlUrl,
+		binPath:  binPath,
 		username: username,
 		password: password,
 		timeout:  timeout,
