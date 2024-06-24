@@ -1,0 +1,14 @@
+[Unit]
+Description=Login CityU HK CP37 captive portal to keep your host online
+
+[Service]
+# You can put environment variables as configuration here.
+# Since they are secrets, just make sure this systemd service file has a proper UNIX permission, e.g., 600.
+Environment=CP37_CITYU_USERNAME=your_username
+Environment=CP37_CITYU_PASSWORD=your_password
+# Or you can override the above environment variables in this file
+EnvironmentFile=-/etc/default/cp37-login
+Type=oneshot
+ExecStart=/usr/local/bin/cp37-login
+User=cp37-login
+DynamicUser=true

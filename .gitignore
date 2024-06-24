@@ -27,3 +27,6 @@ go.work.sum
 # IDE
 .vscode
 .idea
+
+# Build output dir
+/out

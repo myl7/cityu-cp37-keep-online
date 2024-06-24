@@ -1,5 +1,5 @@
 [Unit]
-Description=Keep online in CityU HK compus network
+Description=Timer to login CityU HK CP37 captive portal to keep your host online
 Requires=network.target
 
 [Timer]
