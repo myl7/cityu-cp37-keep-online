@@ -12,7 +12,7 @@ Environment=PATH=/usr/local/bin:/usr/bin:/bin
 # You can override the above all and other environment variables in this file
 EnvironmentFile=-/etc/default/cp37-login
 Type=oneshot
-ExecStart=/usr/local/bin/cp37-login
+ExecStart=/usr/bin/cp37-login
 User=cp37-login
 DynamicUser=true
 # Good sandboxing practice.
