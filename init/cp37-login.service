@@ -8,11 +8,16 @@ Environment=CP37_CITYU_USERNAME=your_username
 Environment=CP37_CITYU_PASSWORD=your_password
 # PATH is set to a fixed default value for systemd services.
 # We manually set it to let the program find the Chromium executable.
-# You can also override PATH in /etc/default/cp37-login.
 Environment=PATH=/usr/local/bin:/usr/bin:/bin
-# Or you can override the above environment variables in this file
+# You can override the above all and other environment variables in this file
 EnvironmentFile=-/etc/default/cp37-login
 Type=oneshot
 ExecStart=/usr/local/bin/cp37-login
 User=cp37-login
 DynamicUser=true
+# Good sandboxing practice.
+# See https://0pointer.net/blog/dynamic-users-with-systemd.html for details.
+ProtectSystem=strict
+ProtectHome=read-only
+PrivateTmp=yes
+RemoveIPC=yes
