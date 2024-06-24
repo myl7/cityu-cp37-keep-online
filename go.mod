@@ -1,4 +1,4 @@
-module github.com/myl7/cityuhk-keep-online
+module github.com/myl7/cityu-cp37-keep-online
 
 go 1.22.3
 

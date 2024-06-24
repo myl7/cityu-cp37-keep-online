@@ -1,4 +1,4 @@
-package cityuhk_ko
+package cp37
 
 import (
 	"context"

@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/joho/godotenv"
-	cityuhk_ko "github.com/myl7/cityuhk-keep-online"
+	cp37 "github.com/myl7/cityu-cp37-keep-online"
 )
 
 const timeout = 60 * time.Second
@@ -31,7 +31,7 @@ func main() {
 			log.Fatalln("Login timeouts after", timeout)
 		}
 	}()
-	err := cityuhk_ko.Login(ctx, ctlUrl, username, password)
+	err := cp37.Login(ctx, ctlUrl, username, password)
 	if err != nil {
 		log.Fatalln(err)
 	}
