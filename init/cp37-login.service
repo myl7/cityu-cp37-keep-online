@@ -6,6 +6,10 @@ Description=Login CityU HK CP37 captive portal to keep your host online
 # Since they are secrets, just make sure this systemd service file has a proper UNIX permission, e.g., 600.
 Environment=CP37_CITYU_USERNAME=your_username
 Environment=CP37_CITYU_PASSWORD=your_password
+# PATH is set to a fixed default value for systemd services.
+# We manually set it to let the program find the Chromium executable.
+# You can also override PATH in /etc/default/cp37-login.
+Environment=PATH=/usr/local/bin:/usr/bin:/bin
 # Or you can override the above environment variables in this file
 EnvironmentFile=-/etc/default/cp37-login
 Type=oneshot
