@@ -1,6 +1,10 @@
 package cp37
 
-import "github.com/go-rod/rod"
+import (
+	"time"
+
+	"github.com/go-rod/rod"
+)
 
 type CP37 struct {
 	username string
@@ -23,4 +27,5 @@ func (cp CP37) MustLogin(browser *rod.Browser) {
 	page.MustElement("#okta-signin-password").MustInput(cp.password)
 	page.MustElement("#okta-signin-submit").MustClick()
 	page.MustWaitStable()
+	time.Sleep(10 * time.Second)
 }
