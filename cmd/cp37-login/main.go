@@ -16,15 +16,7 @@ func main() {
 	_ = godotenv.Load()
 	c := configFromEnv()
 
-	ctx, concel := context.WithTimeout(context.Background(), c.timeout)
-	defer func() {
-		concel()
-		if ctx.Err() == context.DeadlineExceeded {
-			log.Fatalf("Login timeout: timeout=%v", c.timeout)
-		}
-	}()
-
-	browser := rod.New().Context(ctx)
+	browser := rod.New()
 	defer browser.MustClose()
 	if c.ctlUrl != "" {
 		browser = browser.ControlURL(c.ctlUrl)
@@ -44,8 +36,16 @@ func main() {
 	}
 	browser = browser.MustConnect()
 
+	ctx, concel := context.WithTimeout(context.Background(), c.timeout)
+	defer func() {
+		concel()
+		if ctx.Err() == context.DeadlineExceeded {
+			log.Fatalf("Login timeout: timeout=%v", c.timeout)
+		}
+	}()
+
 	cp37 := cp37.NewCP37(c.username, c.password)
-	cp37.MustLogin(browser)
+	cp37.MustLogin(ctx, browser)
 }
 
 type config struct {
